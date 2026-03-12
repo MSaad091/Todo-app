@@ -1,0 +1,149 @@
+/* Update.css */
+
+.update-container {
+  max-width: 450px;
+  margin: 50px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+}
+
+.update-container h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 32px;
+  font-weight: 600;
+  position: relative;
+}
+
+.update-container h1::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: #2196f3;
+  border-radius: 2px;
+}
+
+.update-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.update-container label {
+  color: #555;
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: -10px;
+}
+
+.update-container input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.update-container input:focus {
+  border-color: #2196f3;
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+.update-container input::placeholder {
+  color: #aaa;
+  font-size: 14px;
+}
+
+.update-container button {
+  width: 100%;
+  padding: 16px;
+  background: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  letter-spacing: 0.5px;
+}
+
+.update-container button:hover {
+  background: #1976d2;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+}
+
+.update-container button:active {
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .update-container {
+    margin: 20px;
+    padding: 25px;
+  }
+
+  .update-container h1 {
+    font-size: 28px;
+    margin-bottom: 25px;
+  }
+
+  .update-container input {
+    padding: 12px 14px;
+    font-size: 14px;
+  }
+
+  .update-container button {
+    padding: 14px;
+    font-size: 15px;
+  }
+}
+
+/* Small phones */
+@media (max-width: 350px) {
+  .update-container {
+    padding: 20px;
+  }
+
+  .update-container h1 {
+    font-size: 24px;
+  }
+
+  .update-container label {
+    font-size: 14px;
+  }
+
+  .update-container input {
+    padding: 10px 12px;
+  }
+}
+
+/* Loading state for button (optional) */
+.update-container button.loading {
+  background: #90caf9;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Error state for inputs (optional) */
+.update-container input.error {
+  border-color: #f44336;
+}
+
+.update-container input.error:focus {
+  border-color: #f44336;
+  box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.1);
+}
