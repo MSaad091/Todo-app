@@ -15,60 +15,59 @@ const Token = async(userId) => {
     return {accessToken}
 }
 
-const RegisterUser = async(req,res) => {
+const RegisterUser = async (req, res) => {
     try {
-    
-        
-       const {username, email, password} = req.body ;
-       console.log(req.body);
-       
-       if (!username) {
-        return res.status(400).json({
-            success:false,
-            messaage:"User NAme is required"
-        })
-       }
-       if (!email) {
-        return res.status(400).json({
-            success:false,
-            messaage:"Email is required"
-        })
-       }
-       if (!password) {
-        return res.status(400).json({
-            success:false,
-            messaage:"Password is required"
-        })
-       }
+        const { username, email, password } = req.body;
+        console.log(req.body);
 
-       const existingUser = await User.findOne({email})
-       if (existingUser) {
-        return res.status(404).json({
-            success:false,
-            messaage:"User ALready Exist"
-        })
-       }
-       const hashpassword = await bcrypt.hash(password,10);
-
-       const createUser = await User.create(
-        {
-            username,
-        email,
-        password:hashpassword
+        if (!username) {
+            return res.status(400).json({
+                success: false,
+                message: "Username is required"
+            })
         }
-       )
-       return res.status(200).json({
-        success:true,
-        messaage:"User Created SuccessFully",
-        user: createUser
-       })
+        if (!email) {
+            return res.status(400).json({
+                success: false,
+                message: "Email is required"
+            })
+        }
+        if (!password) {
+            return res.status(400).json({
+                success: false,
+                message: "Password is required"
+            })
+        }
+
+        const existingUser = await User.findOne({ email })
+        if (existingUser) {
+            return res.status(400).json({
+                success: false,
+                message: "User already exists"
+            })
+        }
+
+        const hashpassword = await bcrypt.hash(password, 10);
+
+        const createUser = await User.create({
+            username,
+            email,
+            password: hashpassword
+        })
+
+        return res.status(200).json({
+            success: true,
+            message: "User created successfully",
+            user: createUser
+        })
+
     } catch (error) {
+        console.log(error)
         return res.status(500).json({
-            success:false,
-            messaage:"Server Error"
+            success: false,
+            message: "Server Error"
         })
     }
-
 }
 
 // const LoginUser = async (req,res) => {
