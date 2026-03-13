@@ -71,54 +71,114 @@ const RegisterUser = async(req,res) => {
 
 }
 
+// const LoginUser = async (req,res) => {
+//     try {
+//         const {email,password} = req.body;
+
+//         if (!email) {
+//             return res.status(404).json({
+//                 success:false,
+//                 messaage:"Email is Required"
+//             })
+//         }
+//          if (!password) {
+//             return res.status(404).json({
+//                 success:false,
+//                 messaage:"Password is Required"
+//             })
+//         }
+
+//         const user = await User.findOne({email}) 
+//         if (!user) {
+//             return res.status(400).json({
+//                 success:false,
+//                 messaage:"User Does Not Exist"
+//             })
+//         } 
+
+//         const isMatch = await bcrypt.compare(password, user.password)
+//             if (!isMatch)
+//       return res.status(401).json({ success: false, message: "Invalid password" });
+//     const {accessToken} = await Token(user._id)
+
+
+// //     return res.status(200).cookie("accessToken",accessToken,{
+// //         httpOnly: true,          
+// //   secure: false, 
+// //     }).json({
+// //         success:true,
+// //         messaage:"USer Login SuccessFuly",
+// //         user
+// //     })
+// res.cookie("accessToken", accessToken, {
+//   httpOnly: true,
+//   secure: true,
+//   sameSite: "none"
+// })
+//     } catch (error) {
+//         console.log(error);
+        
+//     }
+// }
 const LoginUser = async (req,res) => {
-    try {
-        const {email,password} = req.body;
+  try {
 
-        if (!email) {
-            return res.status(404).json({
-                success:false,
-                messaage:"Email is Required"
-            })
-        }
-         if (!password) {
-            return res.status(404).json({
-                success:false,
-                messaage:"Password is Required"
-            })
-        }
+    const {email,password} = req.body;
 
-        const user = await User.findOne({email}) 
-        if (!user) {
-            return res.status(400).json({
-                success:false,
-                messaage:"User Does Not Exist"
-            })
-        } 
+    if (!email) {
+      return res.status(400).json({
+        success:false,
+        message:"Email is Required"
+      })
+    }
 
-        const isMatch = await bcrypt.compare(password, user.password)
-            if (!isMatch)
-      return res.status(401).json({ success: false, message: "Invalid password" });
+    if (!password) {
+      return res.status(400).json({
+        success:false,
+        message:"Password is Required"
+      })
+    }
+
+    const user = await User.findOne({email})
+
+    if (!user) {
+      return res.status(400).json({
+        success:false,
+        message:"User Does Not Exist"
+      })
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password)
+
+    if (!isMatch) {
+      return res.status(401).json({
+        success:false,
+        message:"Invalid password"
+      })
+    }
+
     const {accessToken} = await Token(user._id)
 
+    return res
+      .status(200)
+      .cookie("accessToken", accessToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none"
+      })
+      .json({
+        success:true,
+        message:"User Login Successfully",
+        user
+      })
 
-//     return res.status(200).cookie("accessToken",accessToken,{
-//         httpOnly: true,          
-//   secure: false, 
-//     }).json({
-//         success:true,
-//         messaage:"USer Login SuccessFuly",
-//         user
-//     })
-res.cookie("accessToken", accessToken, {
-  httpOnly: true,
-  secure: true,
-  sameSite: "none"
-})
-    } catch (error) {
-        console.log(error);
-        
-    }
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({
+      success:false,
+      message:"Server Error"
+    })
+  }
 }
 const logoutUser = async (req, res) => {
   try {
