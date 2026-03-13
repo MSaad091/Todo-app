@@ -102,15 +102,19 @@ const LoginUser = async (req,res) => {
     const {accessToken} = await Token(user._id)
 
 
-    return res.status(200).cookie("accessToken",accessToken,{
-        httpOnly: true,          
-  secure: false, 
-    }).json({
-        success:true,
-        messaage:"USer Login SuccessFuly",
-        user
-    })
-
+//     return res.status(200).cookie("accessToken",accessToken,{
+//         httpOnly: true,          
+//   secure: false, 
+//     }).json({
+//         success:true,
+//         messaage:"USer Login SuccessFuly",
+//         user
+//     })
+res.cookie("accessToken", accessToken, {
+  httpOnly: true,
+  secure: true,
+  sameSite: "none"
+})
     } catch (error) {
         console.log(error);
         
