@@ -19,6 +19,7 @@ const CreateTodo = async (req, res) => {
     }
 
     const createtodo = await Todo.create({
+      user:req.user._id,
       title,
       text
     });
