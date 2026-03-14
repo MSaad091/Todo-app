@@ -11,7 +11,7 @@ function AllTodo() {
   const handleGetTodo = async () => {
     try {
       const request = await allTodos();
-      setData(request.data.todo)
+      setData(request.data)
       setLoading(false)
       console.log(request.data);
     } catch (error) {
