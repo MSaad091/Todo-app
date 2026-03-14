@@ -1,32 +1,50 @@
 import React, { useEffect, useState } from 'react'
-import { allTodos, deleteTodo } from '../api';
-import { useNavigate } from 'react-router-dom';
-import '../Stylesheets/AllTodo.css';  // CSS import
+import { allTodos, deleteTodo } from '../api'
+import { useNavigate } from 'react-router-dom'
+import '../Stylesheets/AllTodo.css'
 
 function AllTodo() {
+
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
+
   const navigate = useNavigate()
 
   const handleGetTodo = async () => {
     try {
-      const request = await allTodos();
-      setData(request.data)
+
+      const request = await allTodos()
+
+      console.log(request.data)
+
+      // Ensure data is array
+      if (Array.isArray(request.data.todo)) {
+        setData(request.data.todo)
+      } else if (Array.isArray(request.data.todos)) {
+        setData(request.data.todos)
+      } else {
+        setData([])
+      }
+
       setLoading(false)
-      console.log(request.data);
+
     } catch (error) {
-      console.log(error);
+      console.log(error)
       setLoading(false)
     }
   }
 
   const handledelete = async (id) => {
     try {
+
       const request = await deleteTodo(id)
-      setData(data.filter((todo) => todo._id !== id))
-      console.log(request.data);
+
+      console.log(request.data)
+
+      setData((prev) => prev.filter((todo) => todo._id !== id))
+
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   }
 
@@ -35,7 +53,7 @@ function AllTodo() {
   }
 
   useEffect(() => {
-    handleGetTodo();
+    handleGetTodo()
   }, [])
 
   if (loading) {
@@ -48,6 +66,7 @@ function AllTodo() {
 
   return (
     <div className="all-todo-container">
+
       <h1>All Todos</h1>
 
       {data.length === 0 ? (
@@ -55,29 +74,40 @@ function AllTodo() {
           No todos found. Create your first todo!
         </div>
       ) : (
+
         data.map((item) => (
+
           <div key={item._id} className="todo-card">
+
             <div className="todo-content">
               <h3>{item.title}</h3>
               <p>{item.text}</p>
             </div>
+
             <div className="todo-actions">
-              <button 
+
+              <button
                 className="edit-btn"
                 onClick={() => handleupdate(item._id)}
               >
                 Edit
               </button>
-              <button 
+
+              <button
                 className="delete-btn"
                 onClick={() => handledelete(item._id)}
               >
                 Delete
               </button>
+
             </div>
+
           </div>
+
         ))
+
       )}
+
     </div>
   )
 }
