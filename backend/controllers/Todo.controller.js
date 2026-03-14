@@ -105,24 +105,39 @@ const deletetodo = async (req,res) => {
         })
     }
 }
+// const AllTodo = async (req,res) => {
+//     try {
+//         const todo = await Todo.find();
+//         if (!todo) {
+//             return res.status(404).json({
+//                 success:false,
+//                 message:"Todo Not Found"
+//             })
+//         }
+
+//         return res.status(200).json({
+//             success:true,
+//             message:"Your All Todos Here",
+//             todo
+//         })
+//     } catch (error) {
+//         console.log(error);
+        
+//     }
+// }
 const AllTodo = async (req,res) => {
     try {
-        const todo = await Todo.find();
-        if (!todo) {
-            return res.status(404).json({
-                success:false,
-                message:"Todo Not Found"
-            })
-        }
+
+        const todo = await Todo.find({ user: req.user._id });
 
         return res.status(200).json({
             success:true,
             message:"Your All Todos Here",
             todo
         })
+
     } catch (error) {
         console.log(error);
-        
     }
 }
 const getSingleTodo = async (req,res) => {
